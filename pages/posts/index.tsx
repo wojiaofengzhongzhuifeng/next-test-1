@@ -12,16 +12,22 @@ const GreyDiv = styled.div`
 
 const Index:NextPage = () => {
   const [postsData, setPostData] = useState<Blog[]>([]);
-  
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isEmptyData, setIsEmptyData] = useState<boolean>(false);
+
+
   useEffect(()=>{
+    setIsLoading(true);
     axios.get('/api/v1/posts').then((resolve)=>{
+      setIsLoading(false);
+      if(resolve.data.length === 0){setIsEmptyData(true);}
       setPostData(resolve.data);
     });
   }, []);
   
   return (
       <GreyDiv>
-        {postsData.map((postData)=>(
+        {isLoading ? <div>正在加载中</div> : isEmptyData ? <div>数据为空</div> : postsData.map((postData)=>(
           <div key={postData.id}>{postData.title}</div>
         ))}
       </GreyDiv>
