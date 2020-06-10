@@ -2,7 +2,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import GetPost from "../../../types/types";
+import {GetPost, GetAllPost} from "../../../types/types";
 
 const rootDirPath = process.cwd();
 
@@ -27,7 +27,7 @@ const getPost: GetPost = (markdownPath) => {
 }
 
 // 获取指定文件名称的 markdown
-function getAllPosts(firstMDFilePath: string, secondMDFilePath: string){
+const getAllPosts: GetAllPost = () => {
   return new Promise((resolve)=>{
     Promise.all([getPost(firstMDFilePath), getPost(secondMDFilePath)]).then((resolve1)=>{
       resolve(resolve1);
@@ -40,8 +40,7 @@ const test = (request: NextApiRequest, response: NextApiResponse) => {
   response.setHeader('Content-Type', 'application/json');
   response.setHeader('charset', 'utf-8')
 
-  getAllPosts(firstMDFilePath, secondMDFilePath).then((post)=>{
-    console.log(post);
+  getAllPosts([firstMDFilePath, secondMDFilePath]).then((post)=>{
     response.end(JSON.stringify(post))
   })
 }
