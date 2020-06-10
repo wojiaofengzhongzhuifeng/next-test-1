@@ -1,11 +1,16 @@
-import ErrnoException = NodeJS.ErrnoException;
-
 interface Blog{
   title: string
   date: string,
   content: string,  
 }
 
-type GetPost = (name: string) => Promise<Blog>;
 
-export default GetPost
+export interface GetPost {
+  (name: string): Promise<Blog>;
+}
+
+
+export interface GetAllPost {
+  (filePathList: string[]): Promise<Blog[]>
+}
+
