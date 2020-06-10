@@ -2,16 +2,30 @@ import {NextApiRequest, NextApiResponse} from "next";
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import {GetPost, GetAllPost} from "../../../types/types";
+import {GetPost, GetAllPost, GetAllFilePath} from "../../../types/types";
 
 const rootDirPath = process.cwd();
+const markdownDirPath = `${rootDirPath}/markdown`;
 
 const firstMDFilePath = path.join(rootDirPath, 'markdown/01.md');
 const secondMDFilePath = path.join(rootDirPath, 'markdown/02.md');
 
+const getAllFilePath: GetAllFilePath = (dirPath) => {
+  return new Promise((resolve, reject)=>{
+    fs.readdir(dirPath, (err, files) => {
+      if(err){reject(err)}
+      let resultFilePath = files.map((filePath)=>{
+        return `${dirPath}/${filePath}`
+      });
+      resolve(resultFilePath);
+    });
+  })
+}
 
+getAllFilePath(markdownDirPath).then((dirFileList)=>{
+  console.log('dirFileList', dirFileList);
+});
 
-// 获取一篇 markdown 
 const getPost: GetPost = (markdownPath) => {
   return new Promise((resolve, reject)=>{
     fs.readFile(markdownPath, (error, data)=>{
@@ -26,7 +40,6 @@ const getPost: GetPost = (markdownPath) => {
   })
 }
 
-// 获取指定文件名称的 markdown
 const getAllPosts: GetAllPost = () => {
   return new Promise((resolve)=>{
     Promise.all([getPost(firstMDFilePath), getPost(secondMDFilePath)]).then((resolve1)=>{
