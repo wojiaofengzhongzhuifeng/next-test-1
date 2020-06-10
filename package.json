@@ -10,6 +10,7 @@
   "dependencies": {
     "@types/react": "^16.9.35",
     "@types/react-router": "^5.1.7",
+    "gray-matter": "^4.0.2",
     "next": "9.4.4",
     "next-images": "^1.4.0",
     "react": "16.13.1",
