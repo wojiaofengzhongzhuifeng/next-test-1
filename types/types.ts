@@ -1,7 +1,8 @@
-interface Blog{
+export interface Blog{
   title: string
   date: string,
-  content: string,  
+  content: string,
+  id: number,
 }
 
 // 获取一篇 markdown 

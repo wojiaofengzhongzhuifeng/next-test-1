@@ -28,6 +28,7 @@ const getPost: GetPost = (markdownPath) => {
         title: matter(mdContent).data.title,
         date: matter(mdContent).data.date,
         content: matter(mdContent).content,
+        id: Math.random(),
       })
     })
   })
