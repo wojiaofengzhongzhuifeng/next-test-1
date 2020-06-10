@@ -3,6 +3,7 @@ import {NextPage} from "next";
 import styled from 'styled-components'
 import axios from 'axios';
 import {Blog} from "../../types/types"; 
+import {usePosts} from "hooks/usePosts";
 
 const GreyDiv = styled.div`
   background: grey;
@@ -11,19 +12,7 @@ const GreyDiv = styled.div`
 `
 
 const Index:NextPage = () => {
-  const [postsData, setPostData] = useState<Blog[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isEmptyData, setIsEmptyData] = useState<boolean>(false);
-
-
-  useEffect(()=>{
-    setIsLoading(true);
-    axios.get('/api/v1/posts').then((resolve)=>{
-      setIsLoading(false);
-      if(resolve.data.length === 0){setIsEmptyData(true);}
-      setPostData(resolve.data);
-    });
-  }, []);
+  const {isLoading, isEmptyData, postsData} = usePosts();
   
   return (
       <GreyDiv>
