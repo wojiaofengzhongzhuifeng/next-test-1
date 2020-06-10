@@ -55,7 +55,15 @@ const test = (request: NextApiRequest, response: NextApiResponse) => {
 
   getAllFilePath(markdownDirPath).then((dirFileList)=>{
     getAllPosts(dirFileList).then((post)=>{
-      response.end(JSON.stringify(post))
+      if(Math.random() >= 0.5){
+        setTimeout(()=>{
+          response.end(JSON.stringify(post))
+        }, 3000)
+      } else {
+        setTimeout(()=>{
+          response.end(JSON.stringify([]))
+        }, 3000)
+      }
     })
   });
 }
